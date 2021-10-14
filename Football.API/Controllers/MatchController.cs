@@ -1,5 +1,6 @@
 ﻿using Football.Repository;
 using FotbalAPI.Entities;
+using FotbalAPI.Models;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -14,14 +15,20 @@ namespace Football.API.Controllers
     {
         private IRepository<Match> _repository;
 
-        public MatchController(MatchRepository<Match> repository)
+        public MatchController(IRepository<Match> repository)
         {
             _repository = repository ?? throw new NullReferenceException(nameof(repository));
         }
         [HttpGet]
         public IActionResult Test()
         {
-            return Ok();
+            return Ok(_repository.GetAll());
+        }
+        [HttpPost]
+        public void Create(
+            [FromBody]Match matchDto)
+        {
+            _repository.Insert(matchDto);
         }
     }
 }

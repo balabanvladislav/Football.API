@@ -1,7 +1,9 @@
 using Football.Repository;
+using FotbalAPI.Contexts;
 using FotbalAPI.Entities;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -10,18 +12,20 @@ namespace Football.API
 {
     public class Startup
     {
+        public IConfiguration Configuration { get; }
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
 
-        public IConfiguration Configuration { get; }
+        
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            var connectionString = _configuration["connectionString:cityInfoBDConnectionString"];
-            services.AddDbContext<CityInfoContext>(option =>
+            var connectionString = Configuration["connectionString:cityInfoBDConnectionString"];
+            services.AddDbContext<FootballInfoContext>(option =>
             {
                 option.UseSqlServer(connectionString);
             });

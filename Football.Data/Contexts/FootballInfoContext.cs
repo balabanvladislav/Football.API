@@ -9,7 +9,7 @@ namespace FotbalAPI.Contexts
             base(options)
         {
             // Daca BD exista, nu se va intampla nimic, dar daca nu, aceasta se va cres
-            //Database.EnsureCreated();
+            Database.EnsureCreated();
         }
         public DbSet<Match> Matches { get; set; }
 
@@ -19,10 +19,5 @@ namespace FotbalAPI.Contexts
 
         public DbSet<Location> Locations { get; set; }
 
-        //public FottbalInfoContext(DbContextOptions<FottbalInfoContext> options):
-        //    base(options)
-        //{
-        //    Database.EnsureCreated();
-        //}
     }
 }
