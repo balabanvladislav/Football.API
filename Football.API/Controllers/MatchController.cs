@@ -13,9 +13,9 @@ namespace Football.API.Controllers
     [Route("api/match")]
     public class MatchController : Controller
     {
-        private IRepository<Match> _repository;
+        private IMatchRepository _repository;
 
-        public MatchController(IRepository<Match> repository)
+        public MatchController(IMatchRepository repository)
         {
             _repository = repository ?? throw new NullReferenceException(nameof(repository));
         }
@@ -26,9 +26,13 @@ namespace Football.API.Controllers
         }
         [HttpPost]
         public void Create(
-            [FromBody]Match matchDto)
+            [FromBody]MatchDto matchDto)
         {
-            _repository.Insert(matchDto);
+            var match = new Match()
+            {
+                DateTime = DateTime.Parse(matchDto.DateTime),
+            };
+            _repository.Insert(match);
         }
     }
 }

@@ -11,7 +11,7 @@ namespace FotbalAPI.Entities
 
         [Required]
         [MaxLength(50)]
-        public string Name { get; set; }
+        public string City { get; set; }
 
         [Required]
         [MaxLength(50)]

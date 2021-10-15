@@ -5,11 +5,13 @@
 
         public int Id { get; set; }
 
-        public LocationDto Location { get; set; }
+        public string Location { get; set; }
 
-        public TeamDto FirstTeam { get; set; }
+        public string DateTime { get; set; }
 
-        public TeamDto SecondTeam { get; set; }
+        public string FirstTeam { get; set; }
+
+        public string SecondTeam { get; set; }
 
         public int FirstTeamGoals { get; set; }
 

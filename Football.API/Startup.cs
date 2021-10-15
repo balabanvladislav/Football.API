@@ -1,3 +1,4 @@
+using Autofac;
 using Football.Repository;
 using FotbalAPI.Contexts;
 using FotbalAPI.Entities;
@@ -7,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.OpenApi.Models;
 
 namespace Football.API
 {
@@ -29,8 +31,17 @@ namespace Football.API
             {
                 option.UseSqlServer(connectionString);
             });
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "FootballMatchesApi", Version = "v1" });
+            });
             services.AddControllers();
-            services.AddTransient<IRepository<Match>, MatchRepository<Match>>(); ;
+        }
+        public void ConfigureContainer(ContainerBuilder builder)
+        {
+            builder.RegisterType<GenericMatchRepository<Match>>().As<IGenericRepository<Match>>().InstancePerLifetimeScope();
+            builder.RegisterType<MatchRepository>().As<IMatchRepository>().InstancePerLifetimeScope();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -40,6 +51,8 @@ namespace Football.API
             {
                 app.UseDeveloperExceptionPage();
             }
+            app.UseSwagger();
+            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "FootballMatchesApi v1"));
 
             app.UseHttpsRedirection();
 
