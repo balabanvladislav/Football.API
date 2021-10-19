@@ -1,8 +1,5 @@
-﻿using Football.Data.Entities;
-using Football.Data.Models;
-using System;
+﻿using Football.Data.Models;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Football.Repository
 {
@@ -10,9 +7,8 @@ namespace Football.Repository
     {
         IEnumerable<TeamDto> GetAllTeams();
         TeamDto GetTeamById(int id);
-        void Insert(Team match);
-        void Update(Team matchToUpdate);
-        void Delete(int id);
+        void Insert(TeamForCreating match);
+        public bool TeamExists(int id);
 
         void Save();
     }

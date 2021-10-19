@@ -11,5 +11,7 @@ namespace Football.Repository
         IEnumerable<MatchDto> GetMatches();
         IEnumerable<MatchDto> GetByPlayer(string FName, string LName);
         MatchDto GetMatchById(int id);
+        public bool PlayerExists(string FName, string LName);
+
     }
 }

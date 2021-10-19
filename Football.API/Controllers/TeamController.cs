@@ -1,4 +1,5 @@
-﻿using Football.Repository;
+﻿using Football.Data.Models;
+using Football.Repository;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -23,6 +24,24 @@ namespace Football.API.Controllers
         {
             var result = _repository.GetAllTeams();
             return Ok(result);
+        }
+        [HttpGet("{id}")]
+        public IActionResult GetById(int id)
+        {
+            if (!_repository.TeamExists(id))
+            {
+                return NotFound();
+            }
+
+            var result = _repository.GetTeamById(id);
+            return Ok(result);
+        }
+        [HttpPost]
+        public IActionResult Insert(TeamForCreating newMatch)
+        {
+            _repository.Insert(newMatch);
+            _repository.Save();
+            return Ok();
         }
     }
 }

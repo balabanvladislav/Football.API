@@ -15,14 +15,16 @@ namespace Football.API.Controllers
 
         public MatchController(IMatchRepository repository, IMapper mapper)
         {
-            _repository = repository ?? throw new NullReferenceException(nameof(repository));
-            _mapper = mapper ?? throw new NullReferenceException(nameof(mapper));
+            _repository = repository ?? 
+                throw new NullReferenceException(nameof(repository));
+            _mapper = mapper ?? 
+                throw new NullReferenceException(nameof(mapper));
         }
         [HttpGet]
         public IActionResult AllMatches()
         {
             var matches = _repository.GetMatches();
-
+            
             return Ok(matches);
         }
 
@@ -31,6 +33,10 @@ namespace Football.API.Controllers
         {
             var matches = _repository.GetMatches()
                 .Where(c => c.DateTime >= from && c.DateTime <= to);
+
+            if (matches == null)
+                return NotFound();
+
             return Ok(matches);
         }
 
@@ -39,6 +45,10 @@ namespace Football.API.Controllers
         {
             var matches = _repository.GetMatches()
                 .Where(c => c.Location == city);
+
+            if (matches.Count() == 0)
+                return NotFound();
+
             return Ok(matches);
         }
 
@@ -47,6 +57,10 @@ namespace Football.API.Controllers
         {
             var matches = _repository.GetMatches()
                 .Where(c => c.FirstTeam == team || c.SecondTeam == team);
+
+            if (matches.Count() == 0)
+                return NotFound();
+
             return Ok(matches);
         }
 
@@ -55,7 +69,15 @@ namespace Football.API.Controllers
 
         public IActionResult ByPlayer(string FirstName, string LastName)
         {
+
+            if (!_repository.PlayerExists(FirstName,LastName))
+                return NotFound();
+
             var matches = _repository.GetByPlayer(FirstName, LastName);
+
+            if (matches.Count() == 0)
+                return NotFound();
+
             return Ok(matches);
         }
 
@@ -64,6 +86,10 @@ namespace Football.API.Controllers
         {
 
             var match = _repository.GetMatchById(id);
+
+            if (match == null)
+                return NotFound();
+
             return Ok(_repository.GetMatchById(id));
         }
     }

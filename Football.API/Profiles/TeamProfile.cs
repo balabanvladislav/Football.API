@@ -9,8 +9,9 @@ namespace Football.API.Profiles
         public TeamProfile()
         {
             CreateMap<Team, TeamDto>()
-                    .ForMember(dest => dest.Location, opt => opt.MapFrom(src => src.Location.City));
-                  
+                .ForMember(dest => dest.Location, opt => opt.MapFrom(src => src.Location.City));
+
+            CreateMap<Player, PlayerDto>();
         }
     }
 }

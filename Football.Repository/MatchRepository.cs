@@ -6,7 +6,6 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace Football.Repository
 {
@@ -18,10 +17,13 @@ namespace Football.Repository
 
         public MatchRepository(FootballInfoContext context, IMapper mapper)
         {
-            _context = context ?? throw new NullReferenceException(nameof(context));
+            _context = context
+                ?? throw new NullReferenceException(nameof(context));
             _dbSet = context.Set<Match>();
-            _mapper = mapper ?? throw new NullReferenceException(nameof(mapper));
-        }  
+
+            _mapper = mapper
+                ?? throw new NullReferenceException(nameof(mapper));
+        }
         // TODO: Mapping
         public IEnumerable<MatchDto> GetMatches()
         {
@@ -51,6 +53,13 @@ namespace Football.Repository
                 .ToList();
 
             return result;
+        }
+
+        public bool PlayerExists(string FName, string LName)
+        {
+            var player = _context.Players
+                .Any(c => c.FirstName == FName && c.LastName == LName);
+            return player;
         }
 
         public MatchDto GetMatchById(int id)

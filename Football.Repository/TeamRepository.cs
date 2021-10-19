@@ -17,9 +17,11 @@ namespace Football.Repository
 
         public TeamRepository(FootballInfoContext context, IMapper mapper)
         {
-            _context = context ?? throw new ArgumentNullException(nameof(context));
+            _context = context ?? 
+                throw new ArgumentNullException(nameof(context));
             _dbSet = context.Set<Team>();
-            _mapper = mapper ?? throw new ArgumentNullException(nameof(context));
+            _mapper = mapper ?? 
+                throw new ArgumentNullException(nameof(context));
         }
 
         public void Delete(int id)
@@ -29,53 +31,43 @@ namespace Football.Repository
 
         public IEnumerable<TeamDto> GetAllTeams()
         {
-            //var result = _mapper.Map<IEnumerable<TeamDto>>(_dbSet
-            //    .Include(f => f.Location)
-            //    .Include(f => f.Players)
-            //    ).ToList();
-            var teamDto = new List<TeamDto>();
-            foreach(var team in _dbSet.Include(f => f.Location).Include(f => f.Players))
+            return (_mapper.Map<IEnumerable<TeamDto>>(_dbSet.Include(f => f.Players).Include(f => f.Location)));
+        }
+
+        public void Insert(TeamForCreating match)
+        {
+            var team = new Team()
             {
-                var dtoT = new TeamDto
-                {
-                    Id = team.Id,
-                    Location = team.Location.City,
-                    Name = team.Name,
-                    Players = new List<PlayerDto>()
-                };
-                
-                foreach(var player in team.Players)
-                {
-                    dtoT.Players.Add(new PlayerDto
-                    {
-                        Id = player.Id,
-                        FirstName = player.FirstName,
-                        LastName = player.LastName
-                    });
-                }
-                teamDto.Add(dtoT);
-            }
-            return teamDto;
+                Location = _context.Locations.FirstOrDefault(f => f.City == match.Location) ?? 
+                new Location { City = match.Location, Country = "Unkown" },
+                Name = match.Name,
+                Players = null
+            };
+            _dbSet.Add(team);
+        }
+
+        public bool TeamExists(int id)
+        {
+            var team = _dbSet.Find(id);
+            return team  != null;
         }
 
         public TeamDto GetTeamById(int id)
         {
-            throw new NotImplementedException();
+            var team = _mapper.Map<TeamDto>(_dbSet
+                .Where(c => c.Id == id)
+                .Include(f => f.Players)
+                .Include(f => f.Location)
+                .FirstOrDefault());
+
+            return team;
         }
 
-        public void Insert(Team match)
-        {
-            throw new NotImplementedException();
-        }
+       
 
         public void Save()
         {
-            throw new NotImplementedException();
-        }
-
-        public void Update(Team matchToUpdate)
-        {
-            throw new NotImplementedException();
+            _context.SaveChanges();
         }
     }
 }

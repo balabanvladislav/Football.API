@@ -41,11 +41,10 @@ namespace Football.API
 
             services.AddControllers();
 
-            services.AddAutoMapper(typeof(Startup));
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
         }
         public void ConfigureContainer(ContainerBuilder builder)
         {
-            builder.RegisterType<GenericMatchRepository<Match>>().As<IGenericRepository<Match>>().InstancePerLifetimeScope();
             builder.RegisterType<MatchRepository>().As<IMatchRepository>().InstancePerLifetimeScope();
             builder.RegisterType<TeamRepository>().As<ITeamRepository>().InstancePerLifetimeScope();
         }
