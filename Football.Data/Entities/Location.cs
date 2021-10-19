@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace FotbalAPI.Entities
+namespace Football.Data.Entities
 {
     public class Location
     {

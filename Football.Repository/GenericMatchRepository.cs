@@ -1,4 +1,4 @@
-﻿using FotbalAPI.Contexts;
+﻿using Football.Data.Contexts;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;

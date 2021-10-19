@@ -1,7 +1,7 @@
-﻿using FotbalAPI.Entities;
+﻿using Football.Data.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace FotbalAPI.Contexts
+namespace Football.Data.Contexts
 {
     public class FootballInfoContext : DbContext
     {

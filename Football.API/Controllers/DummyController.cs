@@ -1,5 +1,5 @@
-﻿using FotbalAPI.Contexts;
-using FotbalAPI.Entities;
+﻿using Football.Data.Contexts;
+using Football.Data.Entities;
 using Microsoft.AspNetCore.Mvc;
 using System;
 
@@ -33,7 +33,7 @@ namespace Football.API.Controllers
 
             var player3 = new Player { FirstName = "Victoras", LastName = "Fam" };
 
-            var player4 = new Player { FirstName = "Nichita", LastName = "Domi" };
+            var player4 = new Player { FirstName = "Nichita", LastName = "Sulac" };
 
             var player5 = new Player { FirstName = "Victor", LastName = "Torreto" };
 
@@ -45,15 +45,35 @@ namespace Football.API.Controllers
 
             var player9 = new Player { FirstName = "Nichita", LastName = "Domi" };
 
-            var player10 = new Player { FirstName = "Victor", LastName = "Torreto" };
+            var player10 = new Player { FirstName = "Victor", LastName = "Botez" };
+
+            var player11 = new Player { FirstName = "Mihai", LastName = "Scurtu" };
+                      
+            var player12 = new Player { FirstName = "Andrei", LastName = "Lungu" };
+                      
+            var player13 = new Player { FirstName = "Ovidiu", LastName = "Domanciuc" };
+                      
+            var player14 = new Player { FirstName = "Ovidiu", LastName = "Medrigan" };
+                      
+            var player15 = new Player { FirstName = "Vitalic", LastName = "Butnar" };
+                      
+            var player16 = new Player { FirstName = "Vasea", LastName = "Fotbalistu" };
+                      
+            var player17 = new Player { FirstName = "Catalin", LastName = "Cheptea" };
+                      
+            var player18 = new Player { FirstName = "Viorel", LastName = "Lupascu" };
+                      
+            var player19 = new Player { FirstName = "Nume", LastName = "Prenume" };
+
+            var player20 = new Player { FirstName = "Roberto", LastName = "Ronaldo" };
 
             var team1 = new Team { Players = { player1, player2, player3, player4, player5 }, Location = MoldovaCantemir, Name = "BestTeam"};
 
-            var team2 = new Team { Players = { player9, player6, player7, player8, player10 }, Location = TransnistriaTiraspol, Name = "Sheriff" };
+            var team2 = new Team { Players = { player6, player7, player8, player9, player10 }, Location = TransnistriaTiraspol, Name = "Sheriff" };
 
-            var team3 = new Team { Players = { player5, player9, player4, player8, player7 }, Location = RomaniaBucharest, Name = "Bulldog" };
+            var team3 = new Team { Players = { player11, player12, player13, player14, player15 }, Location = RomaniaBucharest, Name = "Bulldog" };
 
-            var team4 = new Team { Players = { player3, player7, player4, player9, player2 }, Location = RomaniaBucharest, Name = "Fortuna" };
+            var team4 = new Team { Players = { player16, player17, player18, player19, player20 }, Location = RomaniaBucharest, Name = "Fortuna" };
 
 
 

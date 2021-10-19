@@ -1,6 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using Football.Data;
+using System.Collections.Generic;
 
-namespace FotbalAPI.Models
+namespace Football.Data.Models
 {
     public class TeamDto
     {
@@ -12,10 +13,5 @@ namespace FotbalAPI.Models
 
         public ICollection<PlayerDto> Players { get; set; }
           = new List<PlayerDto>();
-        //public Player FirstPlayer { get; set; }
-        //public Player SecondPlayer { get; set; }
-        //public Player ThirdPlayer { get; set; }
-        //public Player FourthPlayer { get; set; }
-        //public Player FifthPlayer { get; set; }
     }
 }

@@ -1,6 +1,7 @@
-﻿using FotbalAPI.Contexts;
-using FotbalAPI.Entities;
-using FotbalAPI.Models;
+﻿using AutoMapper;
+using Football.Data.Contexts;
+using Football.Data.Entities;
+using Football.Data.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -13,11 +14,13 @@ namespace Football.Repository
     {
         internal FootballInfoContext _context;
         internal DbSet<Match> _dbSet;
+        private readonly IMapper _mapper;
 
-        public MatchRepository(FootballInfoContext context)
+        public MatchRepository(FootballInfoContext context, IMapper mapper)
         {
             _context = context ?? throw new NullReferenceException(nameof(context));
             _dbSet = context.Set<Match>();
+            _mapper = mapper ?? throw new NullReferenceException(nameof(mapper));
         }
         public void Delete(Match matchToDelete)
         {
@@ -33,33 +36,43 @@ namespace Football.Repository
         // TODO: Mapping
         public IEnumerable<MatchDto> GetAll()
         {
-            List<MatchDto> matches = new List<MatchDto>();
 
-            foreach(var match in _dbSet.ToList())
-            {
-                var newMatch = new MatchDto
-                {
-                    FirstTeam = match.FirstTeam.Name,
-                    SecondTeam = match.SecondTeam.Name,
-                    Location = match.Location.City,
-                    FirstTeamGoals = match.FirstTeamGoals,
-                    SecondTeamGoals = match.SecondTeamGoals,
-                    DateTime = match.DateTime.ToString()
-                };
-                matches.Add(newMatch);
-            }
+            var result = _mapper.Map<IEnumerable<MatchDto>>(_dbSet
+                .Where(c => c.Id > 0)
+                .Include(f => f.Location)
+                .Include(f => f.FirstTeam)
+                .Include(f => f.SecondTeam))
+                .ToList();
 
-                return matches;
+            return result;
         }
 
-        public Match GetbyId(int id)
+        public IEnumerable<MatchDto> GetByPlayer(string FName, string LName)
         {
-            throw new NotImplementedException();
+
+            var player = _context.Players
+                .Include(f => f.Team)
+                .FirstOrDefault(c => c.FirstName == FName && c.LastName == LName);
+
+            var result = _mapper.Map<IEnumerable<MatchDto>>(_dbSet
+                .Where(c => c.FirstTeam.Id == player.Team.Id || c.SecondTeam.Id == player.Team.Id)
+                .Include(f => f.Location)
+                .Include(f => f.FirstTeam)
+                .Include(f => f.SecondTeam))
+                .ToList();
+
+            return result;
         }
 
-        public Match GetMatchById(int id)
+        public MatchDto GetMatchById(int id)
         {
-            throw new NotImplementedException();
+            var match = _dbSet.Where(c => c.Id == id).Include(f => f.Location)
+                .Include(f => f.FirstTeam)
+                .Include(f => f.SecondTeam)
+                .ToList().FirstOrDefault();
+
+
+            return _mapper.Map<MatchDto>(match);
         }
 
         public void Insert(Match match)

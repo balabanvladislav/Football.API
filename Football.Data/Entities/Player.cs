@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace FotbalAPI.Entities
+namespace Football.Data.Entities
 {
     public class Player
     {
@@ -13,5 +13,8 @@ namespace FotbalAPI.Entities
         public string LastName { get; set; }
         [MaxLength(20)]
         public string FirstName { get; set; }
+
+        [ForeignKey("TeamId")]
+        public Team Team { get; set; }
     }
 }

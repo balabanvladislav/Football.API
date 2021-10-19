@@ -1,4 +1,4 @@
-﻿namespace FotbalAPI.Models
+﻿namespace Football.Data.Models
 {
     public class LocationDto
     {

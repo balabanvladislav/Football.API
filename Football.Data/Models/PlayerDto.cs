@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace FotbalAPI.Models
+namespace Football.Data.Models
 {
     public class PlayerDto
     {

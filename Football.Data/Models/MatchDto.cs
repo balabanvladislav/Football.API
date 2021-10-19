@@ -1,4 +1,6 @@
-﻿namespace FotbalAPI.Models
+﻿using System;
+
+namespace Football.Data.Models
 {
     public class MatchDto
     {
@@ -7,7 +9,7 @@
 
         public string Location { get; set; }
 
-        public string DateTime { get; set; }
+        public DateTime DateTime { get; set; }
 
         public string FirstTeam { get; set; }
 
