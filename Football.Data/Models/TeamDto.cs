@@ -1,4 +1,5 @@
 ﻿using Football.Data;
+using Football.Data.Entities;
 using System.Collections.Generic;
 
 namespace Football.Data.Models
@@ -9,7 +10,7 @@ namespace Football.Data.Models
 
         public string Name { get; set; }
 
-        public LocationDto Location { get; set; }
+        public string Location { get; set; }
 
         public ICollection<PlayerDto> Players { get; set; }
           = new List<PlayerDto>();

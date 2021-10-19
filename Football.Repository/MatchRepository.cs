@@ -21,20 +21,9 @@ namespace Football.Repository
             _context = context ?? throw new NullReferenceException(nameof(context));
             _dbSet = context.Set<Match>();
             _mapper = mapper ?? throw new NullReferenceException(nameof(mapper));
-        }
-        public void Delete(Match matchToDelete)
-        {
-            _dbSet.Remove(matchToDelete);
-        }
-
-        public void Delete(int id)
-        {
-            var match = _context.Matches.Find(id);
-            Delete(match);
-        }
-
+        }  
         // TODO: Mapping
-        public IEnumerable<MatchDto> GetAll()
+        public IEnumerable<MatchDto> GetMatches()
         {
 
             var result = _mapper.Map<IEnumerable<MatchDto>>(_dbSet
@@ -73,21 +62,6 @@ namespace Football.Repository
 
 
             return _mapper.Map<MatchDto>(match);
-        }
-
-        public void Insert(Match match)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Save()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Update(Match matchToUpdate)
-        {
-            throw new NotImplementedException();
         }
     }
 }

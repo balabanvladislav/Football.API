@@ -47,6 +47,7 @@ namespace Football.API
         {
             builder.RegisterType<GenericMatchRepository<Match>>().As<IGenericRepository<Match>>().InstancePerLifetimeScope();
             builder.RegisterType<MatchRepository>().As<IMatchRepository>().InstancePerLifetimeScope();
+            builder.RegisterType<TeamRepository>().As<ITeamRepository>().InstancePerLifetimeScope();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

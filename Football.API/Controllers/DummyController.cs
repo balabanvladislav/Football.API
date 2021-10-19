@@ -5,6 +5,9 @@ using System;
 
 namespace Football.API.Controllers
 {
+    /// <summary>
+    /// Dummy controller to fast fill database
+    /// </summary>
     [ApiController]
     [Route("api/filldatabase")]
     public class DummyController : ControllerBase
@@ -103,9 +106,19 @@ namespace Football.API.Controllers
                 FirstTeamGoals = 1,
                 SecondTeamGoals = 1
             };
+            var match4 = new Match
+            {
+                Location = MoldovaChisinau,
+                DateTime = DateTime.Parse("2020.7.20 18:00"),
+                FirstTeam = team3,
+                SecondTeam = team2,
+                FirstTeamGoals = 0,
+                SecondTeamGoals = 0
+            };
             _context.Add(match1);
             _context.Add(match2);
             _context.Add(match3);
+            _context.Add(match4);
             _context.SaveChanges();
             return Ok();
         }

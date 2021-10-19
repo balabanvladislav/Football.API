@@ -12,6 +12,7 @@ namespace Football.API.Profiles
                 .ForMember(dest => dest.FirstTeam, opt => opt.MapFrom(src => src.FirstTeam.Name))
                 .ForMember(dest => dest.SecondTeam, opt => opt.MapFrom(src => src.SecondTeam.Name))
                 .ForMember(dest => dest.Location, opt => opt.MapFrom(src => src.Location.City));
+
         }
     }
 }
