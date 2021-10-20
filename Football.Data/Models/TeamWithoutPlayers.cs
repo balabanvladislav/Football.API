@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Football.Data.Models
+﻿namespace Football.Data.Models
 {
     public class TeamWithoutPlayers
     {

@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Football.Repository
 {
@@ -17,28 +18,30 @@ namespace Football.Repository
 
         public TeamRepository(FootballInfoContext context, IMapper mapper)
         {
-            _context = context ?? 
+            _context = context ??
                 throw new ArgumentNullException(nameof(context));
             _dbSet = context.Set<Team>();
-            _mapper = mapper ?? 
+            _mapper = mapper ??
                 throw new ArgumentNullException(nameof(context));
         }
 
-        public void Delete(int id)
+        public async Task<IEnumerable<TeamDto>> GetAllTeamsAsync()
         {
-            throw new NotImplementedException();
+            var result = _mapper.Map<IEnumerable<TeamDto>>(await _dbSet.Include(f => f.Players).Include(f => f.Location).ToListAsync());
+            return result;
         }
 
-        public IEnumerable<TeamDto> GetAllTeams()
+        public async Task<IEnumerable<TeamWithoutPlayers>> GetAllTeamsWithoutPlayersAsync()
         {
-            return (_mapper.Map<IEnumerable<TeamDto>>(_dbSet.Include(f => f.Players).Include(f => f.Location)));
+            var result = _mapper.Map<IEnumerable<TeamWithoutPlayers>>(await _dbSet.Include(f => f.Players).Include(f => f.Location).ToListAsync());
+            return result;
         }
 
         public void Insert(TeamForCreating match)
         {
             var team = new Team()
             {
-                Location = _context.Locations.FirstOrDefault(f => f.City == match.Location) ?? 
+                Location = _context.Locations.FirstOrDefault(f => f.City == match.Location) ??
                 new Location { City = match.Location, Country = "Unkown" },
                 Name = match.Name,
                 Players = null
@@ -49,21 +52,19 @@ namespace Football.Repository
         public bool TeamExists(int id)
         {
             var team = _dbSet.Find(id);
-            return team  != null;
+            return team != null;
         }
 
-        public TeamDto GetTeamById(int id)
+        public async Task<TeamDto> GetTeamByIdAsync(int id)
         {
-            var team = _mapper.Map<TeamDto>(_dbSet
+            var team = _mapper.Map<TeamDto>(await _dbSet
                 .Where(c => c.Id == id)
                 .Include(f => f.Players)
                 .Include(f => f.Location)
-                .FirstOrDefault());
+                .SingleAsync());
 
             return team;
         }
-
-       
 
         public void Save()
         {

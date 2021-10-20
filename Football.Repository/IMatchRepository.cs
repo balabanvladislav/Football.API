@@ -1,16 +1,14 @@
-﻿using Football.Data.Entities;
-using Football.Data.Models;
-using System;
+﻿using Football.Data.Models;
 using System.Collections.Generic;
-using System.Text;
+using System.Threading.Tasks;
 
 namespace Football.Repository
 {
     public interface IMatchRepository
     {
-        IEnumerable<MatchDto> GetMatches();
-        IEnumerable<MatchDto> GetByPlayer(string FName, string LName);
-        MatchDto GetMatchById(int id);
+        Task<IEnumerable<MatchDto>> GetMatchesAsync();
+        Task<IEnumerable<MatchDto>> GetByPlayerAsync(string FName, string LName);
+        Task<MatchDto> GetMatchByIdAsync(int id);
         public bool PlayerExists(string FName, string LName);
 
     }

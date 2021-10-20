@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Football.Repository
 {
@@ -25,32 +26,31 @@ namespace Football.Repository
                 ?? throw new NullReferenceException(nameof(mapper));
         }
         // TODO: Mapping
-        public IEnumerable<MatchDto> GetMatches()
+        public async Task<IEnumerable<MatchDto>> GetMatchesAsync()
         {
 
-            var result = _mapper.Map<IEnumerable<MatchDto>>(_dbSet
+            var result = _mapper.Map<IEnumerable<MatchDto>>(await _dbSet
                 .Where(c => c.Id > 0)
                 .Include(f => f.Location)
                 .Include(f => f.FirstTeam)
-                .Include(f => f.SecondTeam))
-                .ToList();
+                .Include(f => f.SecondTeam)
+                .ToListAsync());
 
             return result;
         }
 
-        public IEnumerable<MatchDto> GetByPlayer(string FName, string LName)
+        public async Task<IEnumerable<MatchDto>> GetByPlayerAsync(string FName, string LName)
         {
 
-            var player = _context.Players
-                .Include(f => f.Team)
-                .FirstOrDefault(c => c.FirstName == FName && c.LastName == LName);
+            var player = await _context.Players
+                .Include(f => f.Team).FirstOrDefaultAsync(c => c.FirstName == FName && c.LastName == LName);
 
-            var result = _mapper.Map<IEnumerable<MatchDto>>(_dbSet
+            var result = _mapper.Map<IEnumerable<MatchDto>>(await _dbSet
                 .Where(c => c.FirstTeam.Id == player.Team.Id || c.SecondTeam.Id == player.Team.Id)
                 .Include(f => f.Location)
                 .Include(f => f.FirstTeam)
-                .Include(f => f.SecondTeam))
-                .ToList();
+                .Include(f => f.SecondTeam)
+                .ToListAsync());
 
             return result;
         }
@@ -62,12 +62,12 @@ namespace Football.Repository
             return player;
         }
 
-        public MatchDto GetMatchById(int id)
+        public async Task<MatchDto> GetMatchByIdAsync(int id)
         {
-            var match = _dbSet.Where(c => c.Id == id).Include(f => f.Location)
+            var match = await _dbSet.Where(c => c.Id == id).Include(f => f.Location)
                 .Include(f => f.FirstTeam)
                 .Include(f => f.SecondTeam)
-                .ToList().FirstOrDefault();
+                .FirstOrDefaultAsync();
 
 
             return _mapper.Map<MatchDto>(match);
